@@ -32,39 +32,56 @@ export default function ResultForm() {
     <ThemeProvider theme={defaultTheme}>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
-        <Stack
-          sx={{
-            marginTop: 8,
-            textAlign: "center",
-          }}
-        >
+        <Stack>
           <Stack
             component="form"
             onSubmit={handleSubmit}
             noValidate
-            sx={{ mt: 1, gap: 1 }}
+            sx={{
+              mt: 1,
+              gap: 2,
+              backgroundColor: "white",
+              p: 2,
+              borderRadius: 2,
+            }}
           >
-            <Typography color="initial">Select Category</Typography>
-            <TextField
-              //   margin="normal"
-              required
-              fullWidth
-              id="email"
-              label="Select Category"
-              name="email"
-              autoFocus
-            />
-            <Typography color="initial">Enter Your Number</Typography>
-            <TextField
-              //   margin="normal"
-              required
-              fullWidth
-              name="number"
-              label="Enter Your Number"
-              type="text"
-              id="number"
-            />
-            <Stack spacing={2} direction={"column"}>
+            <Box>
+              <Typography
+                color="initial"
+                sx={{ fontSize: 20, fontWeight: 500 }}
+              >
+                Select Category
+              </Typography>
+              <TextField
+                required
+                fullWidth
+                id="email"
+                // label="Select Category"
+                name="email"
+                size="small"
+                autoFocus
+                sx={{ borderRadius: 2 }}
+              />
+            </Box>
+            <Box>
+              <Typography
+                color="initial"
+                sx={{ fontSize: 20, fontWeight: 500 }}
+              >
+                Enter Your Number
+              </Typography>
+              <TextField
+                required
+                fullWidth
+                name="number"
+                // label="Enter Your Number"
+                type="text"
+                id="number"
+                size="small"
+                sx={{ borderRadius: 2 }}
+              />
+            </Box>
+            <Stack direction={"column"} sx={{ gap: 1 }}>
               <Button
                 type="submit"
                 fullWidth

@@ -9,13 +9,23 @@ const Navbar = () => {
     <Container>
       <Stack
         direction={"row"}
-        justifyContent={"flex-end"}
+        justifyContent={"space-between"}
         alignItems={"center"}
         p={1}
       >
         {/* <Stack>
           <Image alt="logo" src={"/logo.svg.png"} width={100} height={50} />
         </Stack> */}
+        <Stack>
+          <Typography
+            textTransform={"capitalize"}
+            color={"#FAD67F"}
+            fontWeight={"bold"}
+            variant="h5"
+          >
+            The Lottery
+          </Typography>
+        </Stack>
         <Box>
           <Stack direction={"row"} justifyContent={"flex-end"} gap={2}>
             <Model btnTxt={"Login"} variant="contained">

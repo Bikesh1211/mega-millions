@@ -1,34 +1,34 @@
-import React from 'react';
-import SignIn from './SignIn';
-import Model from './Model';
-import Typography from '@mui/material/Typography';
-import { Box, Container, Stack } from '@mui/material';
-import ResultForm from './ResultForm';
-import Navbar from './Navbar';
-import Image from 'next/image';
-import styles from '../styles/image.module.css';
+import React from "react";
+import SignIn from "./Account";
+import Model from "./Model";
+import Typography from "@mui/material/Typography";
+import { Box, Container, Stack } from "@mui/material";
+import ResultForm from "./ResultForm";
+import Navbar from "./Navbar";
+import Image from "next/image";
+import styles from "../styles/image.module.css";
 
 const HeroPage = () => {
   return (
     <>
-      <Box sx={{ backgroundColor: '#302F7B' }}>
+      <Box sx={{ backgroundColor: "#302F7B" }}>
         <Navbar />
       </Box>
       <Stack
         sx={{
-          height: '100vh',
-          backgroundImage: 'url(/dsgn_23.jpg)',
+          height: "100vh",
+          backgroundImage: "url(/dsgn_23.jpg)",
         }}
-        justifyContent={'center'}
+        justifyContent={"center"}
       >
         <Stack
-          justifyContent={'center'}
-          direction={'row'}
+          justifyContent={"center"}
+          direction={"row"}
           className={styles.imageContainer}
         >
           <Image
-            alt='logo'
-            src='/logo.svg.png'
+            alt="logo"
+            src="/logo.svg.png"
             width={300}
             height={150}
             className={styles.image}

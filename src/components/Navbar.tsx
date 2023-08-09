@@ -1,7 +1,7 @@
 import { Box, Container, Stack, Typography } from "@mui/material";
 import React from "react";
 import Model from "./Model";
-import SignIn from "./SignIn";
+import SignIn from "./Account";
 import Image from "next/image";
 
 const Navbar = () => {

@@ -4,16 +4,18 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
-
+import { Stack } from "@mui/material";
+import CloseIcon from "@mui/icons-material/Close";
 const style = {
   position: "absolute" as "absolute",
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  borderradius: 5,
+  borderRadius: 5,
   bgcolor: "background.paper",
   boxShadow: 24,
   p: 4,
+  width: { sm: "60%", xs: "90%", md: "auto", xl: "auto" },
 };
 
 export default function Model({ children, btnTxt, vairant }: any) {
@@ -41,7 +43,14 @@ export default function Model({ children, btnTxt, vairant }: any) {
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <Box sx={style}>{children}</Box>
+        <Box sx={style}>
+          <Stack sx={{ position: "absolute", right: 10, top: 10 }}>
+            <Button color="error" onClick={handleClose}>
+              <CloseIcon />
+            </Button>
+          </Stack>
+          {children}
+        </Box>
       </Modal>
     </>
   );

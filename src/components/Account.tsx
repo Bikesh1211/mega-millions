@@ -33,7 +33,11 @@ function Copyright(props: any) {
 
 const defaultTheme = createTheme();
 
-export default function SignIn() {
+export default function Account() {
+  const [isLogin, setIsLogin] = React.useState(true);
+  const toggleLogin = () => {
+    setIsLogin(!isLogin);
+  };
   const handleSubmit = (event: any) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -59,7 +63,7 @@ export default function SignIn() {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Sign in
+            {isLogin ? "Login" : "Create Account"}
           </Typography>
           <Box
             component="form"
@@ -97,18 +101,18 @@ export default function SignIn() {
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
             >
-              Sign In
+              {isLogin ? "Login" : "Create Account"}
             </Button>
             <Grid container>
-              <Grid item xs>
-                <Link href="#" variant="body2">
-                  Forgot password?
-                </Link>
-              </Grid>
               <Grid item>
-                <Link href="#" variant="body2">
-                  {"Don't have an account? Sign Up"}
-                </Link>
+                <Button
+                  sx={{ textTransform: "capitalize" }}
+                  onClick={toggleLogin}
+                >
+                  {isLogin
+                    ? "Don't have an account? Sign Up"
+                    : "Already have an account? Login"}
+                </Button>
               </Grid>
             </Grid>
           </Box>

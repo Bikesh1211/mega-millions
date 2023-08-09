@@ -7,6 +7,7 @@ import ResultForm from "./ResultForm";
 import Navbar from "./Navbar";
 import Image from "next/image";
 import styles from "../styles/image.module.css";
+import LotteryHistory from "./LotteryHistory";
 
 const HeroPage = () => {
   return (
@@ -14,6 +15,7 @@ const HeroPage = () => {
       <Box sx={{ backgroundColor: "#302F7B" }}>
         <Navbar />
       </Box>
+      <LotteryHistory />
       <Stack
         sx={{
           height: "100vh",

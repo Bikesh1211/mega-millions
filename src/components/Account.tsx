@@ -13,6 +13,8 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { useFormik } from "formik";
+import usePostRequest from "@/hooks/useApi";
 
 function Copyright(props: any) {
   return (
@@ -38,14 +40,21 @@ export default function Account() {
   const toggleLogin = () => {
     setIsLogin(!isLogin);
   };
+  const { post, data } = usePostRequest();
   const handleSubmit = (event: any) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
+    const values = new FormData(event.currentTarget);
     console.log({
-      email: data.get("email"),
-      password: data.get("password"),
+      email: values.get("email"),
+      password: values.get("password"),
     });
+    if (isLogin) {
+      post("auth/login", values);
+    } else {
+      post("auth/register", values);
+    }
   };
+  console.log({ data });
 
   return (
     <ThemeProvider theme={defaultTheme}>
@@ -77,23 +86,21 @@ export default function Account() {
               fullWidth
               id="email"
               label="Email Address"
-              name="email"
               autoComplete="email"
+              // {...getFieldProps("email")}
+              name="email"
               autoFocus
             />
             <TextField
               margin="normal"
               required
               fullWidth
-              name="password"
               label="Password"
               type="password"
               id="password"
+              // {...getFieldProps("password")}
+              name="password"
               autoComplete="current-password"
-            />
-            <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
             />
             <Button
               type="submit"

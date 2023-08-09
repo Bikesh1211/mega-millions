@@ -37,7 +37,7 @@ export default function Account() {
   });
   console.log({ data });
   useEffect(() => {
-    const token = data?.localStorage.setItem("token", token);
+    localStorage.setItem("token", data?.token);
   }, [data]);
   const { getFieldProps, handleSubmit } = formik;
 

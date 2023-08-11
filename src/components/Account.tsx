@@ -15,14 +15,15 @@ import React, { useEffect } from "react";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { toast } from "react-toastify";
 export default function Account() {
+  const [isLoading, setIsLoading] = React.useState(false);
   const [isLogin, setIsLogin] = React.useState(true);
   const toggleLogin = () => {
     setIsLogin(!isLogin);
   };
-  const { post, data } = usePostRequest();
+  const { post, data, isLoading: isLoginLoading } = usePostRequest();
   useEffect(() => {
     toast("Login successful");
-  }, []);
+  }, [isLoginLoading]);
 
   const formik = useFormik({
     initialValues: {
@@ -31,6 +32,7 @@ export default function Account() {
     },
     onSubmit: async (values) => {
       try {
+        setIsLoading(true);
         if (isLogin) {
           await post("auth/login", values);
         } else {
@@ -39,10 +41,12 @@ export default function Account() {
         if (data) {
           window.location.reload();
         }
-      } catch (error) {}
+      } catch (error) {
+      } finally {
+        setIsLoading(false);
+      }
     },
   });
-  console.log({ data });
   useEffect(() => {
     localStorage.setItem("token", data?.token);
   }, [data]);
@@ -64,7 +68,6 @@ export default function Account() {
   }
   return (
     <>
-      {/* ... (rest of the component) */}
       <FormikProvider value={formik}>
         <Container component="main" maxWidth="xs">
           <CssBaseline />
@@ -111,8 +114,13 @@ export default function Account() {
                 fullWidth
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
+                disabled={isLoading} // Disable the button when loading
               >
-                {isLogin ? "Login" : "Create Account"}
+                {isLoading
+                  ? "Loading..."
+                  : isLogin
+                  ? "Login"
+                  : "Create Account"}
               </Button>
               <Grid container>
                 <Grid item>

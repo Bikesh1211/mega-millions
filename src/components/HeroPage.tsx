@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import SignIn from "./Account";
 import Model from "./Model";
 import Typography from "@mui/material/Typography";
@@ -8,14 +8,15 @@ import Navbar from "./Navbar";
 import Image from "next/image";
 import styles from "../styles/image.module.css";
 import LotteryHistory from "./LotteryHistory";
-
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 const HeroPage = () => {
   return (
     <>
       <Box sx={{ backgroundColor: "#302F7B" }}>
         <Navbar />
       </Box>
-      <LotteryHistory />
+
       <Stack
         sx={{
           height: "100vh",
@@ -23,21 +24,11 @@ const HeroPage = () => {
         }}
         justifyContent={"center"}
       >
-        <Stack
-          justifyContent={"center"}
-          direction={"row"}
-          className={styles.imageContainer}
-        >
-          <Image
-            alt="logo"
-            src="/logo.svg.png"
-            width={300}
-            height={150}
-            className={styles.image}
-          />
-        </Stack>
-        <Stack>
+        <Stack direction={"row"} justifyContent={"center"}>
           <ResultForm />
+          <Box sx={{ padding: 5 }}>
+            <LotteryHistory />
+          </Box>
         </Stack>
       </Stack>
     </>

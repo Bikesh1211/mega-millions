@@ -1,10 +1,12 @@
-import { Box, Container, Stack, Typography } from "@mui/material";
+"use client";
+import { Box, Button, Container, Stack, Typography } from "@mui/material";
 import React from "react";
 import Model from "./Model";
 import SignIn from "./Account";
 import Image from "next/image";
 
 const Navbar = () => {
+  const token = localStorage.getItem("token");
   return (
     <Container>
       <Stack
@@ -27,16 +29,30 @@ const Navbar = () => {
           </Typography>
         </Stack>
         <Box>
-          <Stack direction={"row"} justifyContent={"flex-end"} gap={2}>
-            <Model btnTxt={"Login"} variant="contained">
-              <SignIn />
-            </Model>
-            <Model btnTxt={"Scan Me"}>
-              <Typography variant="h1" color="initial">
-                Scan Me
-              </Typography>
-            </Model>
-          </Stack>
+          {token ? (
+            <>
+              <Button
+                variant="contained"
+                onClick={() => {
+                  localStorage.clear();
+                  window.location.reload();
+                }}
+              >
+                Logout
+              </Button>
+            </>
+          ) : (
+            <Stack direction={"row"} justifyContent={"flex-end"} gap={2}>
+              <Model btnTxt={"Login"} variant="contained">
+                <SignIn />
+              </Model>
+              <Model btnTxt={"Scan Me"}>
+                <Typography variant="h1" color="initial">
+                  Scan Me
+                </Typography>
+              </Model>
+            </Stack>
+          )}
         </Box>
       </Stack>
     </Container>

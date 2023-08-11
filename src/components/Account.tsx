@@ -13,12 +13,16 @@ import {
 import { Form, FormikProvider, useFormik } from "formik";
 import React, { useEffect } from "react";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import { toast } from "react-toastify";
 export default function Account() {
   const [isLogin, setIsLogin] = React.useState(true);
   const toggleLogin = () => {
     setIsLogin(!isLogin);
   };
   const { post, data } = usePostRequest();
+  useEffect(() => {
+    toast("Login successful");
+  }, []);
 
   const formik = useFormik({
     initialValues: {
@@ -31,6 +35,9 @@ export default function Account() {
           await post("auth/login", values);
         } else {
           await post("auth/register", values);
+        }
+        if (data) {
+          window.location.reload();
         }
       } catch (error) {}
     },

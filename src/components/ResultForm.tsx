@@ -13,8 +13,16 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { Stack } from "@mui/material";
+import {
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  SelectChangeEvent,
+  Stack,
+} from "@mui/material";
 import Image from "next/image";
+import styles from "../styles/image.module.css";
 
 const defaultTheme = createTheme();
 
@@ -27,7 +35,12 @@ export default function ResultForm() {
       password: data.get("password"),
     });
   };
+  const [category, setCategory] = React.useState("");
 
+  const handleChange = (event: SelectChangeEvent) => {
+    setCategory(event.target.value as string);
+  };
+  console.log({ category });
   return (
     <ThemeProvider theme={defaultTheme}>
       <Container component="main" maxWidth="xs">
@@ -40,35 +53,53 @@ export default function ResultForm() {
             sx={{
               mt: 1,
               gap: 2,
-              backgroundColor: "white",
-              p: 2,
-              borderRadius: 2,
+              background: "rgba(255, 255, 255, 0.2)",
+              borderRadius: "16px",
+              boxShadow: "0 4px 30px rgba(0, 0, 0, 0.1)",
+              backdropFilter: "blur(5px)",
+              WebkitBackdropFilter: "blur(5px)",
+              border: "1px solid rgba(255, 255, 255, 0.3)",
+              p: 5,
             }}
           >
+            <Image
+              alt="logo"
+              src="/logo.svg.png"
+              width={300}
+              height={150}
+              className={styles.image}
+            />
             <Box>
-              <Typography
-                color="initial"
-                sx={{ fontSize: 20, fontWeight: 500 }}
-              >
-                Select Category
-              </Typography>
-              <TextField
-                required
-                fullWidth
-                id="email"
-                // label="Select Category"
-                name="email"
-                size="small"
-                autoFocus
-                sx={{ borderRadius: 2 }}
-              />
+              <FormControl fullWidth>
+                <InputLabel
+                  id="demo-simple-select-label"
+                  sx={{ color: "white" }}
+                >
+                  Select Category
+                </InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  value={category}
+                  label="Select Category"
+                  onChange={handleChange}
+                  sx={{ color: "white" }}
+                >
+                  <MenuItem value={"PowerBall"} color="white">
+                    PowerBall
+                  </MenuItem>
+                  <MenuItem value={"MegaMillion"} color="white">
+                    MegaMillion
+                  </MenuItem>
+                </Select>
+              </FormControl>
             </Box>
             <Box>
               <Typography
                 color="initial"
-                sx={{ fontSize: 20, fontWeight: 500 }}
+                sx={{ fontSize: 15, fontWeight: 500, color: "white" }}
               >
-                Enter Your Number
+                Enter Your Lottery Number
               </Typography>
               <TextField
                 required

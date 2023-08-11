@@ -4,7 +4,7 @@ import axios from "axios";
 
 export const usePostRequest = () => {
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState<any>(null);
   const [data, setData] = useState<any>(null);
 
   const post = async (url: any, requestData: any) => {

@@ -9,4 +9,5 @@
   -webkit-appearance: none;
   appearance: none;
   margin: 0;
+  -ms-overflow-style: none;
 }

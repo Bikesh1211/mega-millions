@@ -10,31 +10,26 @@ const LotteryHistory = () => {
   return (
     <Box
       sx={{
-        padding: 2,
-        borderRadius: "16px",
-        boxShadow: "0 4px 30px rgba(0, 0, 0, 0.1)",
-        backdropFilter: "blur(5px)",
-        WebkitBackdropFilter: "blur(5px)",
-        border: "1px solid rgba(255, 255, 255, 0.3)",
-        color: "white",
+        overflowY: "auto",
+        height: 500,
       }}
     >
-      <Typography variant="h5" color="white" textAlign={"center"}>
+      <Typography variant="h5" textAlign={"center"}>
         Lottery History
       </Typography>
       {data?.user?.lotteryHistory.map((each: any) => {
         return (
-          <div>
+          <Box>
             <Stack direction={"row"} justifyContent={"space-between"}>
-              <Typography color="white" textTransform={"uppercase"}>
+              <Typography textTransform={"uppercase"}>
                 {each?.category}
               </Typography>
-              <Typography color="white">
+              <Typography>
                 Draw Date:
                 {new Date(each?.drawdate).toLocaleDateString("en-US")}
               </Typography>
             </Stack>
-            <Stack direction={"row"} gap={2}>
+            <Stack direction={"row"} gap={2} mb={2} mt={2}>
               {each?.numbers?.map((num: any) => {
                 return (
                   <Button
@@ -68,7 +63,7 @@ const LotteryHistory = () => {
                 {each?.megaball}
               </Button>
             </Stack>
-          </div>
+          </Box>
         );
       })}
     </Box>

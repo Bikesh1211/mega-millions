@@ -4,6 +4,7 @@ import React from "react";
 import Model from "./Model";
 import SignIn from "./Account";
 import Image from "next/image";
+import LotteryHistory from "./LotteryHistory";
 
 const Navbar = () => {
   const token = localStorage.getItem("token");
@@ -15,9 +16,6 @@ const Navbar = () => {
         alignItems={"center"}
         p={1}
       >
-        {/* <Stack>
-          <Image alt="logo" src={"/logo.svg.png"} width={100} height={50} />
-        </Stack> */}
         <Stack>
           <Typography
             textTransform={"capitalize"}
@@ -30,7 +28,7 @@ const Navbar = () => {
         </Stack>
         <Box>
           {token ? (
-            <>
+            <Stack direction={"row"} spacing={2}>
               <Button
                 variant="contained"
                 onClick={() => {
@@ -40,7 +38,10 @@ const Navbar = () => {
               >
                 Logout
               </Button>
-            </>
+              <Model btnTxt={"Lottery History"}>
+                <LotteryHistory />
+              </Model>
+            </Stack>
           ) : (
             <Stack direction={"row"} justifyContent={"flex-end"} gap={2}>
               <Model btnTxt={"Login"} variant="contained">

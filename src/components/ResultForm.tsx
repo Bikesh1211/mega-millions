@@ -24,15 +24,16 @@ import {
 import Image from "next/image";
 import styles from "../styles/image.module.css";
 import { Form, FormikProvider, useFormik } from "formik";
+import { useGetRequest } from "@/hooks/useApi";
 
 const defaultTheme = createTheme();
 
 export default function ResultForm() {
   const [category, setCategory] = React.useState("");
-
   const handleChange = (event: SelectChangeEvent) => {
     setCategory(event.target.value as string);
   };
+  const [lotteryData, setLotteryData] = React.useState<any>(null);
   const lotteryNumber = [
     { id: 1, name: "num1" },
     { id: 2, name: "num2" },
@@ -41,6 +42,7 @@ export default function ResultForm() {
     { id: 5, name: "num5" },
     { id: 6, name: "num6" },
   ];
+  console.log({ lotteryData });
 
   const formik = useFormik({
     initialValues: {
@@ -53,9 +55,21 @@ export default function ResultForm() {
     },
     onSubmit: async (values) => {
       console.log({ values });
+
+      if (category === "PowerBall") {
+        const { data } = useGetRequest(
+          `lottery/powerball?userNumber=${values?.num1},${values?.num2},${values?.num3},${values?.num4},${values?.num5},${values?.num6},`
+        );
+        setLotteryData(data);
+      } else if (category === "MegaMillion") {
+        const { data } = useGetRequest(
+          `lottery/powerball?userNumber=${values?.num1},${values?.num2},${values?.num3},${values?.num4},${values?.num5},${values?.num6},`
+        );
+        setLotteryData(data);
+      }
     },
   });
-  const { getFieldProps, handleSubmit } = formik;
+  const { getFieldProps, handleSubmit, values } = formik;
 
   return (
     <ThemeProvider theme={defaultTheme}>

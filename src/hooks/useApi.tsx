@@ -39,7 +39,6 @@ export const useGetRequest = (initialUrl: any) => {
       setIsLoading(true);
       setError(null);
       setData(null);
-      console.log({ token });
       try {
         const response = await axios.get(
           `https://helpful-shorts-pig.cyclic.app/api/${url}`,

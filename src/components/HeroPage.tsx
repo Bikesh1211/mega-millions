@@ -26,9 +26,6 @@ const HeroPage = () => {
       >
         <Stack direction={"row"} justifyContent={"center"}>
           <ResultForm />
-          <Box sx={{ padding: 5 }}>
-            <LotteryHistory />
-          </Box>
         </Stack>
       </Stack>
     </>

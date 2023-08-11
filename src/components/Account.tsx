@@ -20,7 +20,7 @@ export default function Account() {
   const toggleLogin = () => {
     setIsLogin(!isLogin);
   };
-  const { post, data, isLoading: isLoginLoading } = usePostRequest();
+  const { post, data, isLoading: isLoginLoading, error } = usePostRequest();
   useEffect(() => {
     toast("Login successful");
   }, [isLoginLoading]);
@@ -38,9 +38,6 @@ export default function Account() {
         } else {
           await post("auth/register", values);
         }
-        if (data) {
-          window.location.reload();
-        }
       } catch (error) {
       } finally {
         setIsLoading(false);
@@ -48,7 +45,12 @@ export default function Account() {
     },
   });
   useEffect(() => {
-    localStorage.setItem("token", data?.token);
+    if (data) {
+      localStorage.setItem("token", data?.token);
+    }
+    if (data && !error) {
+      window.location.reload();
+    }
   }, [data]);
   const { getFieldProps, handleSubmit } = formik;
 

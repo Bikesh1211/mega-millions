@@ -18,7 +18,6 @@ export const usePostRequest = () => {
       );
       setData(response.data);
     } catch (error) {
-    //  setError(error);
     } finally {
       setIsLoading(false);
     }

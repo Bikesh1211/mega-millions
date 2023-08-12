@@ -31,7 +31,13 @@ export const useGetRequest = (initialUrl: any) => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const [data, setData] = useState<any>(null);
-  const token = localStorage.getItem("token");
+  const [token, setToken] = useState<any>(null);
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const token = localStorage?.getItem("token");
+      setToken(token);
+    }
+  }, []);
 
   useEffect(() => {
     const fetchData = async () => {

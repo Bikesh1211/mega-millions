@@ -1,13 +1,20 @@
 "use client";
 import { Box, Button, Container, Stack, Typography } from "@mui/material";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Model from "./Model";
 import SignIn from "./Account";
 import Image from "next/image";
 import LotteryHistory from "./LotteryHistory";
 
 const Navbar = () => {
-  const token = localStorage.getItem("token");
+  const [token, setToken] = useState<any>("");
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const token = localStorage?.getItem("token");
+      setToken(token);
+    }
+  }, []);
+
   return (
     <Container>
       <Stack

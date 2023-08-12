@@ -45,7 +45,7 @@ export default function Account() {
     },
   });
   useEffect(() => {
-    if (data) {
+    if (data && typeof window !== "undefined") {
       localStorage.setItem("token", data?.token);
     }
     if (data && !error) {

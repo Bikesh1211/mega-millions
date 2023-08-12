@@ -49,7 +49,7 @@ export const useGetRequest = (initialUrl: any) => {
         );
         setData(response.data);
       } catch (error) {
-        setError(error);
+        // setError(error);
       } finally {
         setIsLoading(false);
       }

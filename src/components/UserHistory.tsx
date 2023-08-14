@@ -6,7 +6,6 @@ import { Box, Button, Stack } from "@mui/material";
 import axios from "axios";
 
 const UserHistory = () => {
-  // const { data, isLoading } = useGetRequest("user/getUserHistory");
   const [data, setData] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [token, setToken] = useState<any>(null);
@@ -16,8 +15,6 @@ const UserHistory = () => {
       setToken(token);
     }
   }, [token]);
-  // fasdfasldfjk;//jjjj
-
   useEffect(() => {
     async function fetchData() {
       try {
@@ -49,7 +46,7 @@ const UserHistory = () => {
       sx={{
         overflowY: "auto",
         overflowX: "auto",
-        minHeight: 300,
+        minHeight: 500,
         backgroundColor: "white",
         p: 2,
         mt: 1,

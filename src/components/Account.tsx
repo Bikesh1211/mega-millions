@@ -1,5 +1,5 @@
-"use client";
-import { usePostRequest } from "@/hooks/useApi";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import {
   Avatar,
   Box,
@@ -11,64 +11,85 @@ import {
   Typography,
 } from "@mui/material";
 import { Form, FormikProvider, useFormik } from "formik";
-import React, { useEffect } from "react";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import { toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
+
 export default function Account() {
-  const [isLoading, setIsLoading] = React.useState(false);
-  const [isLogin, setIsLogin] = React.useState(true);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isLogin, setIsLogin] = useState(true);
+  const [formValues, setFormValues] = useState({
+    email: "",
+    password: "",
+  });
+
   const toggleLogin = () => {
     setIsLogin(!isLogin);
   };
-  const { post, data, isLoading: isLoginLoading, error } = usePostRequest();
-  useEffect(() => {
-    toast("Login successful");
-  }, [isLoginLoading]);
+
+  const handleSubmit = async (values: any) => {
+    try {
+      setIsLoading(true);
+      const endpoint = isLogin ? "auth/login" : "auth/register";
+      const response = await axios.post(
+        `https://helpful-shorts-pig.cyclic.app/api/${endpoint}`,
+        values
+      );
+      const data = response.data;
+      localStorage.setItem("token", data.token);
+      toast.success("Login Successful", {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+      window.location.href = "/";
+    } catch (error) {
+      toast.error("Something went wrong", {
+        position: "top-center",
+        autoClose: 5000,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const buttonText = isLoading
+    ? "Loading..."
+    : isLogin
+    ? "Login"
+    : "Create Account";
+
   const formik = useFormik({
-    initialValues: {
-      email: "",
-      password: "",
-    },
-    onSubmit: async (values) => {
-      try {
-        setIsLoading(true);
-        if (isLogin) {
-          await post("auth/login", values);
-        } else {
-          await post("auth/register", values);
-        }
-      } catch (error) {
-      } finally {
-        setIsLoading(false);
-      }
-    },
+    initialValues: formValues,
+    onSubmit: handleSubmit,
   });
-  useEffect(() => {
-    if (data && typeof window !== "undefined") {
-      localStorage.setItem("token", data?.token);
-    }
-    if (data && !error) {
-      window.location.reload();
-    }
-  }, [data]);
-  const { getFieldProps, handleSubmit } = formik;
 
-  function Copyright(props: any) {
-    return (
-      <Typography
-        variant="body2"
-        color="text.secondary"
-        align="center"
-        {...props}
-      >
-        {"Copyright © "}
+  const { getFieldProps } = formik;
 
-        {new Date().getFullYear()}
-      </Typography>
-    );
-  }
+  const Copyright = (props: any) => (
+    <Typography
+      variant="body2"
+      color="text.secondary"
+      align="center"
+      {...props}
+    >
+      {"Copyright © "}
+      {new Date().getFullYear()}
+    </Typography>
+  );
+
   return (
     <>
+      <ToastContainer />
       <FormikProvider value={formik}>
         <Container component="main" maxWidth="xs">
           <CssBaseline />
@@ -86,7 +107,7 @@ export default function Account() {
             <Typography component="h1" variant="h5">
               {isLogin ? "Login" : "Create Account"}
             </Typography>
-            <Form onClick={handleSubmit}>
+            <Form onSubmit={formik.handleSubmit}>
               <TextField
                 {...getFieldProps("email")}
                 margin="normal"
@@ -108,20 +129,15 @@ export default function Account() {
                 autoComplete="password"
                 name="password"
                 type="password"
-                autoFocus
               />
               <Button
                 type="submit"
                 fullWidth
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
-                disabled={isLoading} // Disable the button when loading
+                disabled={isLoading}
               >
-                {isLoading
-                  ? "Loading..."
-                  : isLogin
-                  ? "Login"
-                  : "Create Account"}
+                {buttonText}
               </Button>
               <Grid container>
                 <Grid item>
@@ -140,7 +156,6 @@ export default function Account() {
         </Container>
         <Copyright sx={{ mt: 8, mb: 4 }} />
       </FormikProvider>
-      {/* ... (rest of the component) */}
     </>
   );
 }

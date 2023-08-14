@@ -167,7 +167,7 @@ export default function ResultForm() {
                 >
                   Enter Your Lottery Number
                 </Typography>
-                <Stack direction={"row"} gap={1}>
+                <Stack direction={"row"}>
                   {lotteryNumber.map((each, index) => {
                     return (
                       <TextField
@@ -177,10 +177,13 @@ export default function ResultForm() {
                         fullWidth
                         type="number"
                         id={`number${index}`}
-                        size="small"
-                        sx={{ borderRadius: 2, color: "white" }}
+                        sx={{
+                          borderRadius: 2,
+                          color: "white",
+                        }}
                         inputProps={{
                           className: "custom-number-input",
+                          style: { fontSize: 10, color: "white" },
                         }}
                         onChange={(event: any) =>
                           handleInputChange(event, index)

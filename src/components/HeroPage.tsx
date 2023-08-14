@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import SignIn from "./Account";
 import Model from "./Model";
 import Typography from "@mui/material/Typography";
-import { Box, Container, Stack } from "@mui/material";
+import { Box, Container, Grid, Stack } from "@mui/material";
 import ResultForm from "./ResultForm";
 import Navbar from "./Navbar";
 import Image from "next/image";
@@ -38,26 +38,33 @@ const HeroPage = () => {
 
       <Stack
         sx={{
-          height: { sm: "100%", md: "100vh" },
+          height: { sm: "100%", md: "100%", lg: "100vh" },
           backgroundImage: "url(/dsgn_23.jpg)",
         }}
         justifyContent={"center"}
       >
         <Box m={5}>
-          <Stack
-            direction={{ base: "column", md: "row" }}
+          <Grid
+            container
+            direction="row"
             justifyContent="space-between"
             spacing={4}
-            mt={{ xs: 10, md: 20, lg: 0 }}
+            mt={{ xs: 10, md: 10, lg: 0 }}
           >
-            <Box sx={{ display: token && "block" }}>
-              {token && <LotteryHistory />}
-            </Box>
-            <ResultForm />
-            <Box sx={{ display: token && "block" }}>
-              {token && <UserHistory />}
-            </Box>
-          </Stack>
+            {token && (
+              <Grid item xs={12} lg={4}>
+                <LotteryHistory />
+              </Grid>
+            )}
+            <Grid item xs={12} lg={4}>
+              <ResultForm />
+            </Grid>
+            {token && (
+              <Grid item xs={12} lg={4}>
+                <UserHistory />
+              </Grid>
+            )}
+          </Grid>
         </Box>
       </Stack>
     </>

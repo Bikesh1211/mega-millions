@@ -11,7 +11,7 @@ const LotteryHistory = () => {
     <Box
       sx={{
         overflowY: "auto",
-        minHeight: 300,
+        minHeight: 500,
         backgroundColor: "white",
         p: 2,
         mt: 1,
@@ -22,16 +22,22 @@ const LotteryHistory = () => {
         backdropFilter: "blur(5px)",
         WebkitBackdropFilter: "blur(5px)",
         border: "1px solid rgba(255, 255, 255, 0.3)",
-        width: { xs: "100%", md: 500 },
+        // width: { xs: "100%", md: "100%" },
       }}
     >
-      <Typography variant="h5" textAlign={"center"}>
+      <Typography variant="h5" textAlign={"center"} color={"white"}>
         Lottery History
       </Typography>
       <Box>
         <Stack direction={"row"} justifyContent={"space-between"}>
-          <Typography textTransform={"uppercase"}>MegaBall</Typography>
-          <Typography>
+          <Typography
+            textTransform={"uppercase"}
+            color={"white"}
+            fontSize={{ xs: "14px", md: 20 }}
+          >
+            MegaBall
+          </Typography>
+          <Typography color={"white"} fontSize={{ xs: "14px", md: 20 }}>
             Draw Date:
             {new Date(data?.drawdate).toLocaleDateString("en-US")}
           </Typography>
@@ -39,42 +45,47 @@ const LotteryHistory = () => {
         <Stack direction={"row"} gap={2} mb={2} mt={2}>
           {data?.latestMmWinningNumber?.winningNumber?.map((num: any) => {
             return (
-              <Button
-                variant="contained"
-                sx={{
-                  py: 2.5,
-                  borderRadius: "50%",
-                  backgroundColor: "white",
-                  color: "black",
-                  "&:hover": {
-                    backgroundColor: "green",
-                  },
-                }}
-              >
-                {num}
-              </Button>
+              <>
+                <Stack
+                  sx={{
+                    height: 30,
+                    width: 30,
+                    borderRadius: "50%",
+                    backgroundColor: "white",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  {num}
+                </Stack>
+              </>
             );
           })}
-          <Button
-            variant="contained"
+
+          <Stack
             sx={{
-              py: 1.5,
+              height: 30,
+              width: 30,
               borderRadius: "50%",
-              backgroundColor: "#FBDF01",
-              color: "black",
-              "&:hover": {
-                backgroundColor: "green",
-              },
+              backgroundColor: "yellow",
+              justifyContent: "center",
+              alignItems: "center",
             }}
           >
             {data?.latestMmWinningNumber?.megaball}
-          </Button>
+          </Stack>
         </Stack>
       </Box>
       <Box>
         <Stack direction={"row"} justifyContent={"space-between"}>
-          <Typography textTransform={"uppercase"}>Powerball</Typography>
-          <Typography>
+          <Typography
+            textTransform={"uppercase"}
+            color={"white"}
+            fontSize={{ xs: "14px", md: 20 }}
+          >
+            Powerball
+          </Typography>
+          <Typography color={"white"} fontSize={{ xs: "14px", md: 20 }}>
             Draw Date:
             {new Date(data?.drawdate).toLocaleDateString("en-US")}
           </Typography>
@@ -82,36 +93,33 @@ const LotteryHistory = () => {
         <Stack direction={"row"} gap={2} mb={2} mt={2}>
           {data?.latestPbWinningNumber?.winningNumber?.map((num: any) => {
             return (
-              <Button
-                variant="contained"
+              <Stack
                 sx={{
-                  py: 2.5,
+                  height: 30,
+                  width: 30,
                   borderRadius: "50%",
                   backgroundColor: "white",
-                  color: "black",
-                  "&:hover": {
-                    backgroundColor: "green",
-                  },
+                  justifyContent: "center",
+                  alignItems: "center",
                 }}
               >
                 {num}
-              </Button>
+              </Stack>
             );
           })}
-          <Button
-            variant="contained"
+
+          <Stack
             sx={{
-              py: 2.5,
+              height: 30,
+              width: 30,
               borderRadius: "50%",
-              backgroundColor: "#FBDF01",
-              color: "black",
-              "&:hover": {
-                backgroundColor: "green",
-              },
+              backgroundColor: "yellow",
+              justifyContent: "center",
+              alignItems: "center",
             }}
           >
             {data?.latestPbWinningNumber?.powerball}
-          </Button>
+          </Stack>
         </Stack>
       </Box>
     </Box>

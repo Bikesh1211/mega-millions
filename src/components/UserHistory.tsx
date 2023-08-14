@@ -49,6 +49,7 @@ const UserHistory = () => {
     <Box
       sx={{
         overflowY: "auto",
+        overflowX: "auto",
         minHeight: 300,
         backgroundColor: "white",
         p: 2,
@@ -62,17 +63,21 @@ const UserHistory = () => {
         border: "1px solid rgba(255, 255, 255, 0.3)",
       }}
     >
-      <Typography variant="h5" textAlign={"center"}>
+      <Typography variant="h5" textAlign={"center"} color={"white"}>
         User History
       </Typography>
       {data?.user?.lotteryHistory.map((each: any) => {
         return (
           <Box>
             <Stack direction={"row"} justifyContent={"space-between"}>
-              <Typography textTransform={"uppercase"}>
+              <Typography
+                color={"white"}
+                fontSize={{ xs: "14px", md: 20 }}
+                textTransform={"uppercase"}
+              >
                 {each?.category}
               </Typography>
-              <Typography>
+              <Typography color={"white"} fontSize={{ xs: "14px", md: 20 }}>
                 Draw Date:
                 {new Date(each?.drawdate).toLocaleDateString("en-US")}
               </Typography>
@@ -80,36 +85,32 @@ const UserHistory = () => {
             <Stack direction={"row"} gap={2} mb={2} mt={2}>
               {each?.numbers?.map((num: any) => {
                 return (
-                  <Button
-                    variant="contained"
+                  <Stack
                     sx={{
-                      py: 2.5,
+                      height: 30,
+                      width: 30,
                       borderRadius: "50%",
                       backgroundColor: "white",
-                      color: "black",
-                      "&:hover": {
-                        backgroundColor: "green",
-                      },
+                      justifyContent: "center",
+                      alignItems: "center",
                     }}
                   >
                     {num}
-                  </Button>
+                  </Stack>
                 );
               })}
-              <Button
-                variant="contained"
+              <Stack
                 sx={{
-                  py: 2.5,
+                  height: 30,
+                  width: 30,
                   borderRadius: "50%",
-                  backgroundColor: "#FBDF01",
-                  color: "black",
-                  "&:hover": {
-                    backgroundColor: "green",
-                  },
+                  backgroundColor: "yellow",
+                  justifyContent: "center",
+                  alignItems: "center",
                 }}
               >
                 {each?.megaball}
-              </Button>
+              </Stack>
             </Stack>
           </Box>
         );

@@ -75,110 +75,108 @@ export default function ResultForm() {
     <ThemeProvider theme={defaultTheme}>
       <FormikProvider value={formik}>
         <Form onSubmit={handleSubmit}>
-          <Container sx={{ width: { xs: "100%", md: 500, margin: "auto" } }}>
-            <CssBaseline />
-            <Stack>
-              <Stack
-                sx={{
-                  mt: 1,
-                  gap: 2,
-                  background: "rgba(255, 255, 255, 0.2)",
-                  borderRadius: "16px",
-                  boxShadow: "0 4px 30px rgba(0, 0, 0, 0.1)",
-                  backdropFilter: "blur(5px)",
-                  WebkitBackdropFilter: "blur(5px)",
-                  border: "1px solid rgba(255, 255, 255, 0.3)",
-                  p: 5,
-                  minHeight: 500,
-                }}
-              >
-                <Image
-                  alt="logo"
-                  src="/logo.svg.png"
-                  width={300}
-                  height={150}
-                  className={styles.image}
-                />
-                <Box>
-                  <FormControl fullWidth>
-                    <InputLabel
-                      id="demo-simple-select-label"
-                      sx={{ color: "white" }}
-                    >
-                      Select Category
-                    </InputLabel>
-                    <Select
-                      labelId="demo-simple-select-label"
-                      id="demo-simple-select"
-                      value={category}
-                      label="Select Category"
-                      onChange={handleChange}
-                      sx={{ color: "white" }}
-                    >
-                      <MenuItem value={"PowerBall"} color="white">
-                        PowerBall
-                      </MenuItem>
-                      <MenuItem value={"MegaMillion"} color="white">
-                        MegaMillion
-                      </MenuItem>
-                    </Select>
-                  </FormControl>
-                </Box>
-                <Box>
-                  <Typography
-                    color="initial"
-                    sx={{ fontSize: 15, fontWeight: 500, color: "white" }}
+          <CssBaseline />
+          <Stack>
+            <Stack
+              sx={{
+                mt: 1,
+                gap: 2,
+                background: "rgba(255, 255, 255, 0.2)",
+                borderRadius: "16px",
+                boxShadow: "0 4px 30px rgba(0, 0, 0, 0.1)",
+                backdropFilter: "blur(5px)",
+                WebkitBackdropFilter: "blur(5px)",
+                border: "1px solid rgba(255, 255, 255, 0.3)",
+                p: 5,
+                minHeight: 500,
+              }}
+            >
+              <Image
+                alt="logo"
+                src="/logo.svg.png"
+                width={300}
+                height={150}
+                className={styles.image}
+              />
+              <Box>
+                <FormControl fullWidth>
+                  <InputLabel
+                    id="demo-simple-select-label"
+                    sx={{ color: "white" }}
                   >
-                    Enter Your Lottery Number
-                  </Typography>
-                  <Stack direction={"row"} gap={1}>
-                    {lotteryNumber.map((each) => {
-                      return (
-                        <TextField
-                          {...getFieldProps(each?.name)}
-                          required
-                          fullWidth
-                          type="number"
-                          id="number"
-                          size="small"
-                          sx={{ borderRadius: 2, color: "white" }}
-                          inputProps={{
-                            min: 3,
-                            className: "custom-number-input",
-                          }}
-                        />
-                      );
-                    })}
-                  </Stack>
-                </Box>
-                <Stack direction={"column"} sx={{ gap: 1 }}>
-                  <Button
-                    type="submit"
-                    fullWidth
-                    variant="contained"
-                    sx={{
-                      borderRadius: 2,
-                      backgroundColor: "#302F7B",
-                      textTransform: "capitalize",
-                    }}
+                    Select Category
+                  </InputLabel>
+                  <Select
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    value={category}
+                    label="Select Category"
+                    onChange={handleChange}
+                    sx={{ color: "white" }}
                   >
-                    Check Result
-                  </Button>
-                  <Button
-                    fullWidth
-                    variant="contained"
-                    sx={{
-                      borderRadius: 2,
-                      backgroundColor: "#302F7B",
-                      textTransform: "capitalize",
-                    }}
-                  >
-                    Show Lottery Result!
-                  </Button>
+                    <MenuItem value={"PowerBall"} color="white">
+                      PowerBall
+                    </MenuItem>
+                    <MenuItem value={"MegaMillion"} color="white">
+                      MegaMillion
+                    </MenuItem>
+                  </Select>
+                </FormControl>
+              </Box>
+              <Box>
+                <Typography
+                  color="initial"
+                  sx={{ fontSize: 15, fontWeight: 500, color: "white" }}
+                >
+                  Enter Your Lottery Number
+                </Typography>
+                <Stack direction={"row"} gap={1}>
+                  {lotteryNumber.map((each) => {
+                    return (
+                      <TextField
+                        {...getFieldProps(each?.name)}
+                        required
+                        fullWidth
+                        type="number"
+                        id="number"
+                        size="small"
+                        sx={{ borderRadius: 2, color: "white" }}
+                        inputProps={{
+                          min: 3,
+                          className: "custom-number-input",
+                        }}
+                      />
+                    );
+                  })}
                 </Stack>
+              </Box>
+              <Stack direction={"column"} sx={{ gap: 1 }}>
+                <Button
+                  type="submit"
+                  fullWidth
+                  variant="contained"
+                  sx={{
+                    borderRadius: 2,
+                    backgroundColor: "#302F7B",
+                    textTransform: "capitalize",
+                  }}
+                >
+                  Check Result
+                </Button>
+                <Button
+                  fullWidth
+                  variant="contained"
+                  sx={{
+                    borderRadius: 2,
+                    backgroundColor: "#302F7B",
+                    textTransform: "capitalize",
+                  }}
+                >
+                  Show Lottery Result!
+                </Button>
               </Stack>
             </Stack>
-          </Container>
+          </Stack>
         </Form>
       </FormikProvider>
     </ThemeProvider>

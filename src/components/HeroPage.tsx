@@ -10,6 +10,7 @@ import styles from "../styles/image.module.css";
 import LotteryHistory from "./LotteryHistory";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import UserHistory from "./UserHistory";
 const HeroPage = () => {
   return (
     <>
@@ -25,7 +26,9 @@ const HeroPage = () => {
         justifyContent={"center"}
       >
         <Stack direction={"row"} justifyContent={"center"}>
+          <LotteryHistory />
           <ResultForm />
+          <UserHistory />
         </Stack>
       </Stack>
     </>

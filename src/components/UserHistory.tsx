@@ -1,11 +1,48 @@
 "use client";
 import { useGetRequest } from "@/hooks/useApi";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Typography from "@mui/material/Typography";
 import { Box, Button, Stack } from "@mui/material";
+import axios from "axios";
 
 const UserHistory = () => {
-  const { data } = useGetRequest("user/getUserHistory");
+  // const { data, isLoading } = useGetRequest("user/getUserHistory");
+  const [data, setData] = useState<any>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [token, setToken] = useState<any>(null);
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const token = localStorage?.getItem("token");
+      setToken(token);
+    }
+  }, [token]);
+  // fasdfasldfjk;//
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const response = await axios.get(
+          "https://helpful-shorts-pig.cyclic.app/api/user/getUserHistory",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        setData(response.data);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    }
+    fetchData();
+  }, []);
+  console.log({ data });
+  useEffect(() => {});
+  if (isLoading) {
+    return <Typography color={"white"}>Loading</Typography>;
+  }
   return (
     <Box
       sx={{

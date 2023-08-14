@@ -38,22 +38,23 @@ const HeroPage = () => {
 
       <Stack
         sx={{
-          height: "100vh",
+          height: { sm: "100%", md: "100vh" },
           backgroundImage: "url(/dsgn_23.jpg)",
         }}
         justifyContent={"center"}
       >
-        <Stack
-          direction={{ base: "column", md: "row" }}
-          justifyContent="center"
-          spacing={4}
-          mt={{ sm: 40, md: 20, lg: 0 }}
-        >
-          {token && <LotteryHistory />}
-
-          <ResultForm />
-          {token && <UserHistory />}
-        </Stack>
+        <Container>
+          <Stack
+            direction={{ base: "column", md: "row" }}
+            justifyContent="space-between"
+            spacing={4}
+            mt={{ xs: 10, md: 20, lg: 0 }}
+          >
+            {token && <LotteryHistory />}
+            <ResultForm />
+            {token && <UserHistory />}
+          </Stack>
+        </Container>
       </Stack>
     </>
   );

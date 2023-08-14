@@ -75,7 +75,7 @@ export default function ResultForm() {
     <ThemeProvider theme={defaultTheme}>
       <FormikProvider value={formik}>
         <Form onSubmit={handleSubmit}>
-          <Container>
+          <Container sx={{ width: { xs: "100%", md: 500 } }}>
             <CssBaseline />
             <Stack>
               <Stack

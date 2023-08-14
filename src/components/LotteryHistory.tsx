@@ -6,7 +6,7 @@ import { Box, Button, Container, Stack } from "@mui/material";
 
 const LotteryHistory = () => {
   const { data } = useGetRequest("user/getLotteryHistory");
-  console.log({ data });
+  console.log({ data: data?.latestPbWinningNumber?.powerball });
   return (
     <Box
       sx={{
@@ -57,7 +57,7 @@ const LotteryHistory = () => {
           <Button
             variant="contained"
             sx={{
-              py: 2.5,
+              py: 1.5,
               borderRadius: "50%",
               backgroundColor: "#FBDF01",
               color: "black",
@@ -66,7 +66,7 @@ const LotteryHistory = () => {
               },
             }}
           >
-            {data?.megaball}
+            {data?.latestMmWinningNumber?.megaball}
           </Button>
         </Stack>
       </Box>
@@ -109,7 +109,7 @@ const LotteryHistory = () => {
               },
             }}
           >
-            {data?.megaball}
+            {data?.latestPbWinningNumber?.powerball}
           </Button>
         </Stack>
       </Box>

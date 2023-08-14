@@ -24,7 +24,7 @@ export default function Account() {
   useEffect(() => {
     toast("Login successful");
   }, [isLoginLoading]);
-
+  console.log({ login: data });
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -94,7 +94,7 @@ export default function Account() {
                 required
                 fullWidth
                 id="email"
-                // label="Email Address"
+                label="Email Address"
                 autoComplete="email"
                 name="email"
                 autoFocus
@@ -105,7 +105,7 @@ export default function Account() {
                 required
                 fullWidth
                 id="password"
-                // label="Password"
+                label="Password"
                 autoComplete="password"
                 name="password"
                 type="password"

@@ -1,4 +1,5 @@
-import React, { useEffect } from "react";
+"use client";
+import React, { useEffect, useState } from "react";
 import SignIn from "./Account";
 import Model from "./Model";
 import Typography from "@mui/material/Typography";
@@ -12,6 +13,23 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import UserHistory from "./UserHistory";
 const HeroPage = () => {
+  const [isLogin, setIsLogin] = useState(false);
+  const [token, setToken] = useState<any>(undefined);
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const token = localStorage.getItem("token");
+      setToken(token);
+    }
+  }, [token]);
+  useEffect(() => {
+    if (token !== undefined) {
+      setIsLogin(true);
+    } else {
+      setIsLogin(false);
+    }
+  }, [token]);
+  console.log({ token });
+
   return (
     <>
       <Box sx={{ backgroundColor: "#302F7B" }}>
@@ -25,10 +43,15 @@ const HeroPage = () => {
         }}
         justifyContent={"center"}
       >
-        <Stack direction={"row"} justifyContent={"center"}>
-          <LotteryHistory />
+        <Stack
+          direction={{ base: "column", md: "row" }} // Use "base" for smallest screens, "md" for medium screens and above
+          justifyContent="center"
+          spacing={4} // Add some spacing between the components
+        >
+          {token && <LotteryHistory />}
+
           <ResultForm />
-          <UserHistory />
+          {token && <UserHistory />}
         </Stack>
       </Stack>
     </>

@@ -12,15 +12,18 @@ import LotteryHistory from "./LotteryHistory";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import UserHistory from "./UserHistory";
+
 const HeroPage = () => {
   const [isLogin, setIsLogin] = useState(false);
   const [token, setToken] = useState<any>(undefined);
+
   useEffect(() => {
     if (typeof window !== "undefined") {
       const token = localStorage.getItem("token");
       setToken(token);
     }
   }, [token]);
+
   useEffect(() => {
     if (token !== undefined) {
       setIsLogin(true);
@@ -28,7 +31,6 @@ const HeroPage = () => {
       setIsLogin(false);
     }
   }, [token]);
-  console.log({ token });
 
   return (
     <>
@@ -47,20 +49,40 @@ const HeroPage = () => {
           <Grid
             container
             direction="row"
-            justifyContent="space-between"
+            justifyContent="center"
             spacing={4}
             mt={{ xs: 10, md: 10, lg: 0 }}
           >
+            <Grid item xs={12} sm={6} md={4} lg={4}>
+              <ResultForm />
+            </Grid>
+
             {token && (
-              <Grid item xs={12} lg={4}>
+              <Grid
+                item
+                xs={12}
+                sm={6}
+                md={4}
+                lg={4}
+                sx={{
+                  order: { xs: 2, sm: 1, md: 2 },
+                }}
+              >
                 <LotteryHistory />
               </Grid>
             )}
-            <Grid item xs={12} lg={4}>
-              <ResultForm />
-            </Grid>
+
             {token && (
-              <Grid item xs={12} lg={4}>
+              <Grid
+                item
+                xs={12}
+                sm={12}
+                md={4}
+                lg={4}
+                sx={{
+                  order: { xs: 3, sm: 3, md: 3 },
+                }}
+              >
                 <UserHistory />
               </Grid>
             )}

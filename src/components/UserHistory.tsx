@@ -40,7 +40,6 @@ const UserHistory = () => {
       fetchData();
     }
   }, [token]);
-  console.log({ data });
   useEffect(() => {});
   if (isLoading) {
     return <Typography color={"white"}>Loading</Typography>;

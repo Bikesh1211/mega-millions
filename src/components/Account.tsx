@@ -24,7 +24,6 @@ export default function Account() {
   useEffect(() => {
     toast("Login successful");
   }, [isLoginLoading]);
-  console.log({ login: data });
   const formik = useFormik({
     initialValues: {
       email: "",

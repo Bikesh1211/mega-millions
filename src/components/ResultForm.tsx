@@ -20,16 +20,24 @@ import {
   Select,
   SelectChangeEvent,
   Stack,
+  Modal,
+  Fade,
+  IconButton,
 } from "@mui/material";
 import Image from "next/image";
 import styles from "../styles/image.module.css";
 import { Form, FormikProvider, useFormik } from "formik";
 import { useGetRequest } from "@/hooks/useApi";
+import axios from "axios";
+import LotteryResult from "./LotteryResult";
+import CloseIcon from "@mui/icons-material/Close";
 
 const defaultTheme = createTheme();
 
 export default function ResultForm() {
   const [category, setCategory] = React.useState("");
+  const [isLoading, setIsLoading] = React.useState(false);
+  const [isResultVisible, setIsResultVisible] = React.useState(false);
   const handleChange = (event: SelectChangeEvent) => {
     setCategory(event.target.value as string);
   };
@@ -42,7 +50,6 @@ export default function ResultForm() {
     { id: 5, name: "num5" },
     { id: 6, name: "num6" },
   ];
-  console.log({ lotteryData });
 
   const formik = useFormik({
     initialValues: {
@@ -52,24 +59,52 @@ export default function ResultForm() {
       num4: "",
       num5: "",
       num6: "",
+      category: "",
     },
-    onSubmit: async (values) => {
-      console.log({ values });
+    onSubmit: async (values: any) => {
+      setIsLoading(true);
 
-      if (category === "PowerBall") {
-        const { data } = useGetRequest(
-          `lottery/powerball?userNumber=${values?.num1},${values?.num2},${values?.num3},${values?.num4},${values?.num5},${values?.num6},`
-        );
-        setLotteryData(data);
-      } else if (category === "MegaMillion") {
-        const { data } = useGetRequest(
-          `lottery/powerball?userNumber=${values?.num1},${values?.num2},${values?.num3},${values?.num4},${values?.num5},${values?.num6},`
-        );
-        setLotteryData(data);
+      try {
+        if (values.category === "PowerBall") {
+          const apiUrl = `https://helpful-shorts-pig.cyclic.app/api/lottery/powerball?userNumber=${values.num1},${values.num2},${values.num3},${values.num4},${values.num5},${values.num6}`;
+          const response = await axios.post(apiUrl);
+          setLotteryData(response.data);
+          setIsResultVisible(true);
+        } else if (values.category === "MegaMillion") {
+          const apiUrl = `https://helpful-shorts-pig.cyclic.app/api/lottery/megamillion?userNumber=${values.num1},${values.num2},${values.num3},${values.num4},${values.num5},${values.num6}`;
+          const response = await axios.post(apiUrl);
+          setLotteryData(response.data);
+          setIsResultVisible(true);
+        }
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setIsLoading(false);
       }
     },
   });
   const { getFieldProps, handleSubmit, values } = formik;
+  const inputRefs = Array.from({ length: 6 }, () =>
+    React.createRef<HTMLInputElement>()
+  );
+
+  const handleInputChange = (
+    event: React.ChangeEvent<HTMLInputElement>,
+    index: number
+  ) => {
+    const { value } = event.target;
+    formik.setFieldValue(`num${index + 1}`, value);
+
+    if (value.length === 2 && index < 5) {
+      inputRefs[index + 1].current?.focus();
+    }
+  };
+
+  const closeModal = () => {
+    setIsResultVisible(false);
+    setLotteryData(null);
+    formik.resetForm();
+  };
 
   return (
     <ThemeProvider theme={defaultTheme}>
@@ -107,11 +142,13 @@ export default function ResultForm() {
                     Select Category
                   </InputLabel>
                   <Select
-                    labelId="demo-simple-select-label"
                     id="demo-simple-select"
                     value={category}
                     label="Select Category"
-                    onChange={handleChange}
+                    onChange={(event: any) => {
+                      handleChange(event);
+                      formik.setFieldValue("category", event.target.value);
+                    }}
                     sx={{ color: "white" }}
                   >
                     <MenuItem value={"PowerBall"} color="white">
@@ -131,20 +168,23 @@ export default function ResultForm() {
                   Enter Your Lottery Number
                 </Typography>
                 <Stack direction={"row"} gap={1}>
-                  {lotteryNumber.map((each) => {
+                  {lotteryNumber.map((each, index) => {
                     return (
                       <TextField
                         {...getFieldProps(each?.name)}
+                        inputRef={inputRefs[index]}
                         required
                         fullWidth
                         type="number"
-                        id="number"
+                        id={`number${index}`}
                         size="small"
                         sx={{ borderRadius: 2, color: "white" }}
                         inputProps={{
-                          min: 3,
                           className: "custom-number-input",
                         }}
+                        onChange={(event: any) =>
+                          handleInputChange(event, index)
+                        }
                       />
                     );
                   })}
@@ -160,8 +200,9 @@ export default function ResultForm() {
                     backgroundColor: "#302F7B",
                     textTransform: "capitalize",
                   }}
+                  disabled={isLoading}
                 >
-                  Check Result
+                  {isLoading ? "Checking..." : "Check Result"}
                 </Button>
                 <Button
                   fullWidth
@@ -172,10 +213,47 @@ export default function ResultForm() {
                     textTransform: "capitalize",
                   }}
                 >
-                  Show Lottery Result!
+                  Scan Ticket
                 </Button>
               </Stack>
             </Stack>
+            <Modal
+              open={isResultVisible}
+              onClose={closeModal}
+              closeAfterTransition
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <Fade in={isResultVisible}>
+                <div
+                  style={{
+                    backgroundColor: "#fff",
+                    padding: "20px",
+                    borderRadius: "8px",
+                    maxWidth: "350px",
+                    width: "100%",
+                    textAlign: "center",
+                    position: "relative",
+                  }}
+                >
+                  <IconButton
+                    aria-label="close"
+                    onClick={closeModal}
+                    sx={{ position: "absolute", top: 0, right: 0 }}
+                  >
+                    <CloseIcon />
+                  </IconButton>
+                  <LotteryResult
+                    prizeHeadings={lotteryData?.prize?.headings || ""}
+                    winningNumbers={lotteryData?.winningNumbers || []}
+                    matchedNumbers={lotteryData?.userNumbers || []}
+                  />
+                </div>
+              </Fade>
+            </Modal>
           </Stack>
         </Form>
       </FormikProvider>

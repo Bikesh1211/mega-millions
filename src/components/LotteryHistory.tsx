@@ -6,7 +6,6 @@ import { Box, Button, Container, Stack } from "@mui/material";
 
 const LotteryHistory = () => {
   const { data } = useGetRequest("user/getLotteryHistory");
-  console.log({ data: data?.latestPbWinningNumber?.powerball });
   return (
     <Box
       sx={{

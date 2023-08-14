@@ -44,9 +44,10 @@ const HeroPage = () => {
         justifyContent={"center"}
       >
         <Stack
-          direction={{ base: "column", md: "row" }} // Use "base" for smallest screens, "md" for medium screens and above
+          direction={{ base: "column", md: "row" }}
           justifyContent="center"
-          spacing={4} // Add some spacing between the components
+          spacing={4}
+          mt={{ sm: 40, md: 20, lg: 0 }}
         >
           {token && <LotteryHistory />}
 

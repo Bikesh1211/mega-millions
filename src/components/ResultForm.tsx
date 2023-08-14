@@ -75,7 +75,7 @@ export default function ResultForm() {
     <ThemeProvider theme={defaultTheme}>
       <FormikProvider value={formik}>
         <Form onSubmit={handleSubmit}>
-          <Container sx={{ width: { xs: "100%", md: 500 } }}>
+          <Container sx={{ width: { xs: "100%", md: 500, margin: "auto" } }}>
             <CssBaseline />
             <Stack>
               <Stack
@@ -89,7 +89,7 @@ export default function ResultForm() {
                   WebkitBackdropFilter: "blur(5px)",
                   border: "1px solid rgba(255, 255, 255, 0.3)",
                   p: 5,
-                  minHeight: 300,
+                  minHeight: 500,
                 }}
               >
                 <Image

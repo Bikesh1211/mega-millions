@@ -16,7 +16,7 @@ const UserHistory = () => {
       setToken(token);
     }
   }, [token]);
-  // fasdfasldfjk;//
+  // fasdfasldfjk;//jjjj
 
   useEffect(() => {
     async function fetchData() {
@@ -36,8 +36,10 @@ const UserHistory = () => {
         setIsLoading(false);
       }
     }
-    fetchData();
-  }, []);
+    if (token) {
+      fetchData();
+    }
+  }, [token]);
   console.log({ data });
   useEffect(() => {});
   if (isLoading) {

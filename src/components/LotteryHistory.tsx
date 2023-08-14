@@ -22,6 +22,7 @@ const LotteryHistory = () => {
         backdropFilter: "blur(5px)",
         WebkitBackdropFilter: "blur(5px)",
         border: "1px solid rgba(255, 255, 255, 0.3)",
+        width: { xs: "100%", md: 500 },
       }}
     >
       <Typography variant="h5" textAlign={"center"}>

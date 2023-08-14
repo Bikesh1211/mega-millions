@@ -43,18 +43,22 @@ const HeroPage = () => {
         }}
         justifyContent={"center"}
       >
-        <Container>
+        <Box m={5}>
           <Stack
             direction={{ base: "column", md: "row" }}
             justifyContent="space-between"
             spacing={4}
             mt={{ xs: 10, md: 20, lg: 0 }}
           >
-            {token && <LotteryHistory />}
+            <Box sx={{ display: token && "block" }}>
+              {token && <LotteryHistory />}
+            </Box>
             <ResultForm />
-            {token && <UserHistory />}
+            <Box sx={{ display: token && "block" }}>
+              {token && <UserHistory />}
+            </Box>
           </Stack>
-        </Container>
+        </Box>
       </Stack>
     </>
   );

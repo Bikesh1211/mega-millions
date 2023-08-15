@@ -43,6 +43,13 @@ export default function ResultForm() {
     { id: 6, name: "num6" },
   ];
   console.log({ lotteryData });
+  // const values = { num1: "", num2: "", num3: "", num4: "", num5: "", num6: "" };
+  let endpoint = "";
+  if (category === "PowerBall") {
+    endpoint = "lottery/powerball?userNumber";
+  } else if (category === "MegaMillion") {
+    endpoint = "lottery/powerball?userNumber";
+  }
 
   const formik = useFormik({
     initialValues: {
@@ -55,22 +62,16 @@ export default function ResultForm() {
     },
     onSubmit: async (values) => {
       console.log({ values });
-
-      if (category === "PowerBall") {
-        const { data } = useGetRequest(
-          `lottery/powerball?userNumber=${values?.num1},${values?.num2},${values?.num3},${values?.num4},${values?.num5},${values?.num6},`
-        );
-        setLotteryData(data);
-      } else if (category === "MegaMillion") {
-        const { data } = useGetRequest(
-          `lottery/powerball?userNumber=${values?.num1},${values?.num2},${values?.num3},${values?.num4},${values?.num5},${values?.num6},`
-        );
-        setLotteryData(data);
-      }
+      const response = await useGetRequest(
+        `${endpoint}=${values?.num1},${values?.num2},${values?.num3},${values?.num4},${values?.num5},${values?.num6}`
+      );
+      console.log({ response });
+      // setLotteryData(response.data);
+      // console.log({ values, response });
     },
   });
+  console.log({ lotteryData });
   const { getFieldProps, handleSubmit, values } = formik;
-
   return (
     <ThemeProvider theme={defaultTheme}>
       <FormikProvider value={formik}>

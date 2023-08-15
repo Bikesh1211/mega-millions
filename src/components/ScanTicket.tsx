@@ -1,55 +1,73 @@
-import React, { useState } from "react";
-import Webcam from "react-webcam";
-import Tesseract from "tesseract.js";
+import React, { useState, useEffect, useRef } from "react";
+import Quagga from "@ericblade/quagga2";
 
-const ScannerComponent = () => {
-  const [scannedNumbers, setScannedNumbers] = useState([]);
-  const webcamRef: any = React.useRef(null);
+const ScanTicket: React.FC = () => {
+  const [scannedCode, setScannedCode] = useState<string>("");
+  const [isScanning, setIsScanning] = useState<boolean>(false);
+  const scannerRef = useRef(null);
 
-  const captureFrame = async () => {
-    if (webcamRef.current) {
-      const video = webcamRef.current.video;
-      const canvas = document.createElement("canvas");
-      const context: any = canvas.getContext("2d");
+  useEffect(() => {
+    if (isScanning) {
+      Quagga.init(
+        {
+          inputStream: {
+            type: "LiveStream",
+            constraints: {
+              facingMode: "environment",
+            },
+            target: scannerRef.current,
+          },
+          decoder: {
+            readers: ["ean_reader"], // You can change the reader type here
+          },
+        },
+        (err: any) => {
+          if (err) {
+            console.error(err);
+            return;
+          }
+          Quagga.start();
+        }
+      );
 
-      canvas.width = video.width;
-      canvas.height = video.height;
-      context.drawImage(video, 0, 0, video.width, video.height);
-
-      // Perform OCR on the captured frame
-      const {
-        data: { text },
-      } = await Tesseract.recognize(canvas, "eng", {
-        logger: (m) => console.log(m),
-      });
-
-      const extractedNumbers = parseScannedText(text);
-      setScannedNumbers(extractedNumbers);
+      Quagga.onDetected(handleDetection);
+    } else {
+      Quagga.offDetected(handleDetection);
+      Quagga.stop();
     }
+
+    return () => {
+      Quagga.stop();
+    };
+  }, [isScanning]);
+
+  const startScanning = () => {
+    setIsScanning(true);
   };
 
-  const parseScannedText = (text: any) => {
-    // Split the scanned text into individual words
-    const words = text.split(/\s+/);
+  const stopScanning = () => {
+    setIsScanning(false);
+  };
 
-    // Extract numbers from the words using regular expression
-    const extractedNumbers = words
-      .map((word: any) => {
-        const match = word.match(/\d+/); // Regular expression to match numbers
-        return match ? parseInt(match[0], 10) : null; // Convert matched text to integer
-      })
-      .filter((number: any) => number !== null); // Filter out non-numeric values
-
-    return extractedNumbers;
+  const handleDetection = (result: any) => {
+    if (result && result.codeResult) {
+      const scannedCode = result.codeResult.code;
+      setScannedCode(scannedCode);
+      stopScanning();
+    }
   };
 
   return (
     <div>
-      <Webcam ref={webcamRef} />
-      <button onClick={captureFrame}>Capture Frame</button>
-      <div>Scanned Numbers: {scannedNumbers.join(", ")}</div>
+      <div ref={scannerRef} style={{ width: "100%", height: "auto" }} />
+      <div>
+        <button onClick={isScanning ? stopScanning : startScanning}>
+          {isScanning ? "Stop Scanning" : "Start Scanning"}
+        </button>
+      </div>
+      <div>Scanned Barcode: {scannedCode}</div>
     </div>
   );
 };
 
-export default ScannerComponent;
+export default ScanTicket;

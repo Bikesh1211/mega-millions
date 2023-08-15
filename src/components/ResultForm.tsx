@@ -59,7 +59,7 @@ export default function ResultForm() {
       num4: "",
       num5: "",
       num6: "",
-      category: "",
+      category: "MegaMillion",
     },
     onSubmit: async (values: any) => {
       setIsLoading(true);
@@ -143,7 +143,7 @@ export default function ResultForm() {
                   </InputLabel>
                   <Select
                     id="demo-simple-select"
-                    value={category}
+                    value={formik.values.category}
                     label="Select Category"
                     onChange={(event: any) => {
                       handleChange(event);

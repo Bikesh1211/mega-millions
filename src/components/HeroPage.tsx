@@ -12,6 +12,7 @@ import LotteryHistory from "./LotteryHistory";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import UserHistory from "./UserHistory";
+import ScannerComponent from "./ScanTicket";
 
 const HeroPage = () => {
   const [isLogin, setIsLogin] = useState(false);
@@ -37,6 +38,7 @@ const HeroPage = () => {
       <Box sx={{ backgroundColor: "#302F7B" }}>
         <Navbar />
       </Box>
+      <ScannerComponent />
 
       <Stack
         sx={{

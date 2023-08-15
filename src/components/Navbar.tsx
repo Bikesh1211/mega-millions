@@ -45,19 +45,11 @@ const Navbar = () => {
               >
                 Logout
               </Button>
-              <Model btnTxt={"Lottery History"}>
-                <LotteryHistory />
-              </Model>
             </Stack>
           ) : (
             <Stack direction={"row"} justifyContent={"flex-end"} gap={2}>
               <Model btnTxt={"Login"} variant="contained">
                 <SignIn />
-              </Model>
-              <Model btnTxt={"Scan Me"}>
-                <Typography variant="h1" color="initial">
-                  Scan Me
-                </Typography>
               </Model>
             </Stack>
           )}

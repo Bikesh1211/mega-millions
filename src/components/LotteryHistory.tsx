@@ -6,7 +6,9 @@ import { Box, Button, Container, Stack } from "@mui/material";
 
 const LotteryHistory = () => {
   const { data } = useGetRequest("user/getLotteryHistory");
-  console.log({ data: data?.latestPbWinningNumber?.powerball });
+  console.log(data?.latestPbWinningNumber?.drawDate, "ajay");
+
+  console.log("data", data);
   return (
     <Box
       sx={{
@@ -22,7 +24,6 @@ const LotteryHistory = () => {
         backdropFilter: "blur(5px)",
         WebkitBackdropFilter: "blur(5px)",
         border: "1px solid rgba(255, 255, 255, 0.3)",
-        // width: { xs: "100%", md: "100%" },
       }}
     >
       <Typography variant="h5" textAlign={"center"} color={"white"}>
@@ -39,7 +40,9 @@ const LotteryHistory = () => {
           </Typography>
           <Typography color={"white"} fontSize={{ xs: "14px", md: 20 }}>
             Draw Date:
-            {new Date(data?.drawdate).toLocaleDateString("en-US")}
+            {new Date(data?.latestMmWinningNumber?.drawDate).toLocaleDateString(
+              "en-US"
+            )}
           </Typography>
         </Stack>
         <Stack direction={"row"} gap={2} mb={2} mt={2}>
@@ -87,7 +90,9 @@ const LotteryHistory = () => {
           </Typography>
           <Typography color={"white"} fontSize={{ xs: "14px", md: 20 }}>
             Draw Date:
-            {new Date(data?.drawdate).toLocaleDateString("en-US")}
+            {new Date(data?.latestPbWinningNumber?.drawDate).toLocaleDateString(
+              "en-US"
+            )}
           </Typography>
         </Stack>
         <Stack direction={"row"} gap={2} mb={2} mt={2}>

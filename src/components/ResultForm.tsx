@@ -77,7 +77,7 @@ export default function ResultForm() {
           setLotteryData(response.data);
           setIsResultVisible(true);
         } else if (values.category === 'MegaMillion') {
-          const apiUrl = `http://localhost:3001/api/lottery/megamillion?userNumber=${values.num1},${values.num2},${values.num3},${values.num4},${values.num5},${values.num6}`;
+          const apiUrl = `https://helpful-shorts-pig.cyclic.app/api/lottery/megamillion?userNumber=${values.num1},${values.num2},${values.num3},${values.num4},${values.num5},${values.num6}`;
           const response = await axios.post(apiUrl, null, {
             headers: {
               Authorization: `Bearer ${token}`,

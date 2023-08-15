@@ -42,6 +42,7 @@ export default function ResultForm() {
     setCategory(event.target.value as string);
   };
   const [lotteryData, setLotteryData] = React.useState<any>(null);
+  const token = localStorage.getItem('token');
   const lotteryNumber = [
     { id: 1, name: 'num1' },
     { id: 2, name: 'num2' },
@@ -62,17 +63,26 @@ export default function ResultForm() {
       category: 'MegaMillion',
     },
     onSubmit: async (values: any) => {
+      console.log(values);
       setIsLoading(true);
 
       try {
         if (values.category === 'PowerBall') {
           const apiUrl = `https://helpful-shorts-pig.cyclic.app/api/lottery/powerball?userNumber=${values.num1},${values.num2},${values.num3},${values.num4},${values.num5},${values.num6}`;
-          const response = await axios.post(apiUrl);
+          const response = await axios.post(apiUrl, null, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
           setLotteryData(response.data);
           setIsResultVisible(true);
         } else if (values.category === 'MegaMillion') {
-          const apiUrl = `https://helpful-shorts-pig.cyclic.app/api/lottery/megamillion?userNumber=${values.num1},${values.num2},${values.num3},${values.num4},${values.num5},${values.num6}`;
-          const response = await axios.post(apiUrl);
+          const apiUrl = `http://localhost:3001/api/lottery/megamillion?userNumber=${values.num1},${values.num2},${values.num3},${values.num4},${values.num5},${values.num6}`;
+          const response = await axios.post(apiUrl, null, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
           setLotteryData(response.data);
           setIsResultVisible(true);
         }
@@ -83,7 +93,6 @@ export default function ResultForm() {
       }
     },
   });
-  console.log({ lotteryData });
   const { getFieldProps, handleSubmit, values } = formik;
   const inputRefs = Array.from({ length: 6 }, () =>
     React.createRef<HTMLInputElement>()

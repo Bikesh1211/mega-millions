@@ -42,7 +42,13 @@ export default function ResultForm() {
     setCategory(event.target.value as string);
   };
   const [lotteryData, setLotteryData] = React.useState<any>(null);
-  const token = localStorage.getItem('token');
+  const [token, setToken] = React.useState<any>('');
+  React.useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const token = localStorage?.getItem('token');
+      setToken(token);
+    }
+  }, []);
   const lotteryNumber = [
     { id: 1, name: 'num1' },
     { id: 2, name: 'num2' },

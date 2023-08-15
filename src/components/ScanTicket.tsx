@@ -1,45 +1,19 @@
-import React, { useState, useEffect, useRef } from "react";
-import Quagga from "@ericblade/quagga2";
+import React, { useState } from "react";
+import QrScanner from "react-qr-scanner";
 
 const ScanTicket: React.FC = () => {
-  const [scannedCode, setScannedCode] = useState<string>("");
+  const [scannedCode, setScannedCode] = useState<string | null>(null);
   const [isScanning, setIsScanning] = useState<boolean>(false);
-  const scannerRef = useRef(null);
 
-  useEffect(() => {
-    if (isScanning) {
-      Quagga.init(
-        {
-          inputStream: {
-            type: "LiveStream",
-            constraints: {
-              facingMode: "environment",
-            },
-            target: scannerRef.current,
-          },
-          decoder: {
-            readers: ["ean_reader"], // You can change the reader type here
-          },
-        },
-        (err: any) => {
-          if (err) {
-            console.error(err);
-            return;
-          }
-          Quagga.start();
-        }
-      );
-
-      Quagga.onDetected(handleDetection);
-    } else {
-      Quagga.offDetected(handleDetection);
-      Quagga.stop();
+  const handleScan = (data: string | null) => {
+    if (data) {
+      setScannedCode(data);
     }
+  };
 
-    return () => {
-      Quagga.stop();
-    };
-  }, [isScanning]);
+  const handleError = (error: any) => {
+    console.error(error);
+  };
 
   const startScanning = () => {
     setIsScanning(true);
@@ -49,23 +23,25 @@ const ScanTicket: React.FC = () => {
     setIsScanning(false);
   };
 
-  const handleDetection = (result: any) => {
-    if (result && result.codeResult) {
-      const scannedCode = result.codeResult.code;
-      setScannedCode(scannedCode);
-      stopScanning();
-    }
-  };
-
   return (
     <div>
-      <div ref={scannerRef} style={{ width: "100%", height: "auto" }} />
+      <QrScanner
+        delay={300}
+        onError={handleError}
+        onScan={handleScan}
+        style={{ width: "100%", height: "auto" }}
+        facingMode="environment"
+        showViewFinder={isScanning}
+      />
+      <div>Scanned Barcode: {scannedCode}</div>
       <div>
-        <button onClick={isScanning ? stopScanning : startScanning}>
-          {isScanning ? "Stop Scanning" : "Start Scanning"}
+        <button onClick={startScanning} disabled={isScanning}>
+          Start Scanning
+        </button>
+        <button onClick={stopScanning} disabled={!isScanning}>
+          Stop Scanning
         </button>
       </div>
-      <div>Scanned Barcode: {scannedCode}</div>
     </div>
   );
 };

@@ -38,37 +38,53 @@ export default function ResultForm() {
     setCategory(event.target.value as string);
   };
   const [lotteryData, setLotteryData] = React.useState<any>(null);
+  const [token, setToken] = React.useState<any>('');
+  React.useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const token = localStorage?.getItem('token');
+      setToken(token);
+    }
+  }, []);
   const lotteryNumber = [
-    { id: 1, name: "num1" },
-    { id: 2, name: "num2" },
-    { id: 3, name: "num3" },
-    { id: 4, name: "num4" },
-    { id: 5, name: "num5" },
-    { id: 6, name: "num6" },
+    { id: 1, name: 'num1' },
+    { id: 2, name: 'num2' },
+    { id: 3, name: 'num3' },
+    { id: 4, name: 'num4' },
+    { id: 5, name: 'num5' },
+    { id: 6, name: 'num6' },
   ];
 
   const formik = useFormik({
     initialValues: {
-      num1: "",
-      num2: "",
-      num3: "",
-      num4: "",
-      num5: "",
-      num6: "",
-      category: "MegaMillion",
+      num1: '',
+      num2: '',
+      num3: '',
+      num4: '',
+      num5: '',
+      num6: '',
+      category: 'MegaMillion',
     },
     onSubmit: async (values: any) => {
+      console.log(values);
       setIsLoading(true);
 
       try {
-        if (values.category === "PowerBall") {
+        if (values.category === 'PowerBall') {
           const apiUrl = `https://helpful-shorts-pig.cyclic.app/api/lottery/powerball?userNumber=${values.num1},${values.num2},${values.num3},${values.num4},${values.num5},${values.num6}`;
-          const response = await axios.post(apiUrl);
+          const response = await axios.post(apiUrl, null, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
           setLotteryData(response.data);
           setIsResultVisible(true);
-        } else if (values.category === "MegaMillion") {
+        } else if (values.category === 'MegaMillion') {
           const apiUrl = `https://helpful-shorts-pig.cyclic.app/api/lottery/megamillion?userNumber=${values.num1},${values.num2},${values.num3},${values.num4},${values.num5},${values.num6}`;
-          const response = await axios.post(apiUrl);
+          const response = await axios.post(apiUrl, null, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
           setLotteryData(response.data);
           setIsResultVisible(true);
         }
@@ -124,24 +140,23 @@ export default function ResultForm() {
       <FormikProvider value={formik}>
         <Form onSubmit={handleSubmit}>
           <CssBaseline />
-          <Stack>
             <Stack
               sx={{
                 mt: 1,
                 gap: 2,
-                background: "rgba(255, 255, 255, 0.2)",
-                borderRadius: "16px",
-                boxShadow: "0 4px 30px rgba(0, 0, 0, 0.1)",
-                backdropFilter: "blur(5px)",
-                WebkitBackdropFilter: "blur(5px)",
-                border: "1px solid rgba(255, 255, 255, 0.3)",
+                background: 'rgba(255, 255, 255, 0.2)',
+                borderRadius: '16px',
+                boxShadow: '0 4px 30px rgba(0, 0, 0, 0.1)',
+                backdropFilter: 'blur(5px)',
+                WebkitBackdropFilter: 'blur(5px)',
+                border: '1px solid rgba(255, 255, 255, 0.3)',
                 p: 5,
                 minHeight: 500,
               }}
             >
               <Image
-                alt="logo"
-                src="/logo.svg.png"
+                alt='logo'
+                src='/logo.svg.png'
                 width={300}
                 height={150}
                 className={styles.image}
@@ -149,25 +164,25 @@ export default function ResultForm() {
               <Box>
                 <FormControl fullWidth>
                   <InputLabel
-                    id="demo-simple-select-label"
-                    sx={{ color: "white" }}
+                    id='demo-simple-select-label'
+                    sx={{ color: 'white' }}
                   >
                     Select Category
                   </InputLabel>
                   <Select
-                    id="demo-simple-select"
+                    id='demo-simple-select'
                     value={formik.values.category}
-                    label="Select Category"
+                    label='Select Category'
                     onChange={(event: any) => {
                       handleChange(event);
-                      formik.setFieldValue("category", event.target.value);
+                      formik.setFieldValue('category', event.target.value);
                     }}
-                    sx={{ color: "white" }}
+                    sx={{ color: 'white' }}
                   >
-                    <MenuItem value={"PowerBall"} color="white">
+                    <MenuItem value={'PowerBall'} color='white'>
                       PowerBall
                     </MenuItem>
-                    <MenuItem value={"MegaMillion"} color="white">
+                    <MenuItem value={'MegaMillion'} color='white'>
                       MegaMillion
                     </MenuItem>
                   </Select>
@@ -175,12 +190,12 @@ export default function ResultForm() {
               </Box>
               <Box>
                 <Typography
-                  color="initial"
-                  sx={{ fontSize: 15, fontWeight: 500, color: "white" }}
+                  color='initial'
+                  sx={{ fontSize: 15, fontWeight: 500, color: 'white' }}
                 >
                   Enter Your Lottery Number
                 </Typography>
-                <Stack direction={"row"}>
+                <Stack direction={'row'}>
                   {lotteryNumber.map((each, index) => {
                     return (
                       <TextField
@@ -188,15 +203,15 @@ export default function ResultForm() {
                         inputRef={inputRefs[index]}
                         required
                         fullWidth
-                        type="number"
+                        type='number'
                         id={`number${index}`}
                         sx={{
                           borderRadius: 2,
-                          color: "white",
+                          color: 'white',
                         }}
                         inputProps={{
-                          className: "custom-number-input",
-                          style: { fontSize: 10, color: "white" },
+                          className: 'custom-number-input',
+                          style: { fontSize: 9, color: 'white' },
                         }}
                         onChange={(event: any) =>
                           handleInputChange(event, index)
@@ -214,27 +229,28 @@ export default function ResultForm() {
                 />
               )}
               <Stack direction={"column"} sx={{ gap: 1 }}>
+              <Stack direction={'column'} sx={{ gap: 1 }}>
                 <Button
-                  type="submit"
+                  type='submit'
                   fullWidth
-                  variant="contained"
+                  variant='contained'
                   sx={{
                     borderRadius: 2,
-                    backgroundColor: "#302F7B",
-                    textTransform: "capitalize",
+                    backgroundColor: '#302F7B',
+                    textTransform: 'capitalize',
                   }}
                   disabled={isLoading}
                 >
-                  {isLoading ? "Checking..." : "Check Result"}
+                  {isLoading ? 'Checking...' : 'Check Result'}
                 </Button>
                 {scannedNumbers && scannedNumbers}
                 <Button
                   fullWidth
-                  variant="contained"
+                  variant='contained'
                   sx={{
                     borderRadius: 2,
-                    backgroundColor: "#302F7B",
-                    textTransform: "capitalize",
+                    backgroundColor: '#302F7B',
+                    textTransform: 'capitalize',
                   }}
                   onClick={handleScanButton}
                 >
@@ -247,32 +263,32 @@ export default function ResultForm() {
               onClose={closeModal}
               closeAfterTransition
               sx={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
               }}
             >
               <Fade in={isResultVisible}>
                 <div
                   style={{
-                    backgroundColor: "#fff",
-                    padding: "20px",
-                    borderRadius: "8px",
-                    maxWidth: "350px",
-                    width: "100%",
-                    textAlign: "center",
-                    position: "relative",
+                    backgroundColor: '#fff',
+                    padding: '20px',
+                    borderRadius: '8px',
+                    maxWidth: '350px',
+                    width: '100%',
+                    textAlign: 'center',
+                    position: 'relative',
                   }}
                 >
                   <IconButton
-                    aria-label="close"
+                    aria-label='close'
                     onClick={closeModal}
-                    sx={{ position: "absolute", top: 0, right: 0 }}
+                    sx={{ position: 'absolute', top: 0, right: 0 }}
                   >
                     <CloseIcon />
                   </IconButton>
                   <LotteryResult
-                    prizeHeadings={lotteryData?.prize?.headings || ""}
+                    prizeHeadings={lotteryData?.prize?.headings || ''}
                     winningNumbers={lotteryData?.winningNumbers || []}
                     matchedNumbers={lotteryData?.userNumbers || []}
                   />

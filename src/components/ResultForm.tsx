@@ -1,17 +1,10 @@
 "use client";
 import * as React from "react";
-import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
-import Link from "@mui/material/Link";
-import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
-import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import {
   FormControl,
@@ -27,17 +20,20 @@ import {
 import Image from "next/image";
 import styles from "../styles/image.module.css";
 import { Form, FormikProvider, useFormik } from "formik";
-import { useGetRequest } from "@/hooks/useApi";
 import axios from "axios";
 import LotteryResult from "./LotteryResult";
 import CloseIcon from "@mui/icons-material/Close";
+import BarcodeScannerComponent from "react-qr-barcode-scanner";
 
 const defaultTheme = createTheme();
 
 export default function ResultForm() {
+  const [scannedNumbers, setScannedNumbers] = React.useState<string[]>([]);
   const [category, setCategory] = React.useState("");
   const [isLoading, setIsLoading] = React.useState(false);
   const [isResultVisible, setIsResultVisible] = React.useState(false);
+  const [scannerActive, setScannerActive] = React.useState(false);
+
   const handleChange = (event: SelectChangeEvent) => {
     setCategory(event.target.value as string);
   };
@@ -93,10 +89,14 @@ export default function ResultForm() {
     index: number
   ) => {
     const { value } = event.target;
-    formik.setFieldValue(`num${index + 1}`, value);
+    const sanitizedValue = value.slice(0, 2); // Limit to 2 characters
 
-    if (value.length === 2 && index < 5) {
+    formik.setFieldValue(`num${index + 1}`, sanitizedValue);
+
+    if (sanitizedValue.length === 2 && index < 5) {
       inputRefs[index + 1].current?.focus();
+    } else if (sanitizedValue.length === 0 && index > 0) {
+      inputRefs[index - 1].current?.focus();
     }
   };
 
@@ -104,6 +104,19 @@ export default function ResultForm() {
     setIsResultVisible(false);
     setLotteryData(null);
     formik.resetForm();
+  };
+
+  const handleQRCodeScan = (result: any) => {
+    if (result) {
+      const scannedValues = result.text.split(",");
+      setScannedNumbers(scannedValues);
+    } else {
+      setScannedNumbers([]);
+    }
+  };
+
+  const handleScanButton = () => {
+    setScannerActive(!scannerActive);
   };
 
   return (
@@ -193,6 +206,13 @@ export default function ResultForm() {
                   })}
                 </Stack>
               </Box>
+              {scannerActive && (
+                <BarcodeScannerComponent
+                  width={500}
+                  height={300}
+                  onUpdate={(err, result) => handleQRCodeScan(result)}
+                />
+              )}
               <Stack direction={"column"} sx={{ gap: 1 }}>
                 <Button
                   type="submit"
@@ -207,6 +227,7 @@ export default function ResultForm() {
                 >
                   {isLoading ? "Checking..." : "Check Result"}
                 </Button>
+                {scannedNumbers && scannedNumbers}
                 <Button
                   fullWidth
                   variant="contained"
@@ -215,8 +236,9 @@ export default function ResultForm() {
                     backgroundColor: "#302F7B",
                     textTransform: "capitalize",
                   }}
+                  onClick={handleScanButton}
                 >
-                  Scan Ticket
+                  {scannerActive ? "Stop Scanning" : "Scan Ticket"}
                 </Button>
               </Stack>
             </Stack>

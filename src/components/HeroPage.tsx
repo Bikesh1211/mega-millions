@@ -1,15 +1,9 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import SignIn from "./Account";
-import Model from "./Model";
-import Typography from "@mui/material/Typography";
 import { Box, Container, Grid, Stack } from "@mui/material";
 import ResultForm from "./ResultForm";
 import Navbar from "./Navbar";
-import Image from "next/image";
-import styles from "../styles/image.module.css";
 import LotteryHistory from "./LotteryHistory";
-import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import UserHistory from "./UserHistory";
 
@@ -18,11 +12,9 @@ const HeroPage = () => {
   const [token, setToken] = useState<any>(undefined);
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      const token = localStorage.getItem("token");
-      setToken(token);
-    }
-  }, [token]);
+    const token = localStorage.getItem("token");
+    setToken(token);
+  });
 
   useEffect(() => {
     if (token !== undefined) {
@@ -44,7 +36,15 @@ const HeroPage = () => {
         }}
         justifyContent={"center"}
       >
-        <Box m={5}>
+        {/* Mobile View */}
+        <Box m={5} display={{ xs: "block", md: "none" }}>
+          <ResultForm fontsize={9} />
+          {token && <UserHistory />}
+          {token && <LotteryHistory />}
+        </Box>
+
+        {/* Laptop View */}
+        <Box m={5} display={{ xs: "none", md: "block" }}>
           <Grid
             container
             direction="row"
@@ -52,36 +52,16 @@ const HeroPage = () => {
             spacing={4}
             mt={{ xs: 10, md: 10, lg: 0 }}
           >
-            <Grid item xs={12} sm={6} md={4} lg={4}>
-              <ResultForm />
-            </Grid>
-
             {token && (
-              <Grid
-                item
-                xs={12}
-                sm={6}
-                md={4}
-                lg={4}
-                sx={{
-                  order: { xs: 2, sm: 1, md: 2 },
-                }}
-              >
+              <Grid item md={4} lg={4}>
                 <LotteryHistory />
               </Grid>
             )}
-
+            <Grid item md={4} lg={4}>
+              <ResultForm fontsize={15} />
+            </Grid>
             {token && (
-              <Grid
-                item
-                xs={12}
-                sm={12}
-                md={4}
-                lg={4}
-                sx={{
-                  order: { xs: 3, sm: 3, md: 3 },
-                }}
-              >
+              <Grid item md={4} lg={4}>
                 <UserHistory />
               </Grid>
             )}

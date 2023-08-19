@@ -10,11 +10,9 @@ const UserHistory = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [token, setToken] = useState<any>(null);
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      const token = localStorage?.getItem("token");
-      setToken(token);
-    }
-  }, [token]);
+    const token = localStorage?.getItem("token");
+    setToken(token);
+  });
   useEffect(() => {
     async function fetchData() {
       try {
@@ -41,6 +39,8 @@ const UserHistory = () => {
   if (isLoading) {
     return <Typography color={"white"}>Loading</Typography>;
   }
+
+  const latestFiveLotteryHistory = data?.user?.lotteryHistory.slice(-5);
   return (
     <Box
       sx={{
@@ -62,7 +62,7 @@ const UserHistory = () => {
       <Typography variant="h5" textAlign={"center"} color={"white"}>
         User History
       </Typography>
-      {data?.user?.lotteryHistory.map((each: any) => {
+      {latestFiveLotteryHistory.map((each: any) => {
         return (
           <Box>
             <Stack direction={"row"} justifyContent={"space-between"}>

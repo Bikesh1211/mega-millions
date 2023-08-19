@@ -26,7 +26,7 @@ import CloseIcon from "@mui/icons-material/Close";
 
 const defaultTheme = createTheme();
 
-export default function ResultForm() {
+export default function ResultForm({ fontsize }: any) {
   const [category, setCategory] = React.useState("");
   const [isLoading, setIsLoading] = React.useState(false);
   const [isResultVisible, setIsResultVisible] = React.useState(false);
@@ -37,11 +37,9 @@ export default function ResultForm() {
   const [lotteryData, setLotteryData] = React.useState<any>(null);
   const [token, setToken] = React.useState<any>("");
   React.useEffect(() => {
-    if (typeof window !== "undefined") {
-      const token = localStorage?.getItem("token");
-      setToken(token);
-    }
-  }, []);
+    const token = localStorage?.getItem("token");
+    setToken(token);
+  });
   const lotteryNumber = [
     { id: 1, name: "num1" },
     { id: 2, name: "num2" },
@@ -68,7 +66,7 @@ export default function ResultForm() {
       try {
         if (values.category === "PowerBall") {
           const apiUrl = `https://helpful-shorts-pig.cyclic.app/api/lottery/powerball?userNumber=${values.num1},${values.num2},${values.num3},${values.num4},${values.num5},${values.num6}`;
-          const response = await axios.post(apiUrl, null, {
+          const response = await axios.get(apiUrl, {
             headers: {
               Authorization: `Bearer ${token}`,
             },
@@ -77,7 +75,7 @@ export default function ResultForm() {
           setIsResultVisible(true);
         } else if (values.category === "MegaMillion") {
           const apiUrl = `https://helpful-shorts-pig.cyclic.app/api/lottery/megamillion?userNumber=${values.num1},${values.num2},${values.num3},${values.num4},${values.num5},${values.num6}`;
-          const response = await axios.post(apiUrl, null, {
+          const response = await axios.get(apiUrl, {
             headers: {
               Authorization: `Bearer ${token}`,
             },
@@ -116,7 +114,14 @@ export default function ResultForm() {
   const closeModal = () => {
     setIsResultVisible(false);
     setLotteryData(null);
-    formik.resetForm();
+
+    // Clear input values only
+    for (let i = 1; i <= 6; i++) {
+      formik.setFieldValue(`num${i}`, "");
+    }
+    if (token) {
+      window.location.reload();
+    }
   };
 
   return (
@@ -195,7 +200,7 @@ export default function ResultForm() {
                       }}
                       inputProps={{
                         className: "custom-number-input",
-                        style: { fontSize: 9, color: "white" },
+                        style: { fontSize: fontsize, color: "white" },
                       }}
                       onChange={(event: any) => handleInputChange(event, index)}
                     />

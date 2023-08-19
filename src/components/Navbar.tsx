@@ -9,11 +9,9 @@ import LotteryHistory from "./LotteryHistory";
 const Navbar = () => {
   const [token, setToken] = useState<any>("");
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      const token = localStorage?.getItem("token");
-      setToken(token);
-    }
-  }, []);
+    const token = localStorage?.getItem("token");
+    setToken(token);
+  });
 
   return (
     <Container>

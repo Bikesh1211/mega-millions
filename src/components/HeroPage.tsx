@@ -31,7 +31,7 @@ const HeroPage = () => {
       </Box>
       <Stack
         sx={{
-          height: { sm: "100%", md: "100%", lg: "100vh" },
+          height: { sm: "100vh", md: "100vh", lg: "100vh" },
           backgroundImage: "url(/dsgn_23.jpg)",
         }}
         justifyContent={"center"}

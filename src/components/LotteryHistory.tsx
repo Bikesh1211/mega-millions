@@ -44,24 +44,27 @@ const LotteryHistory = () => {
           </Typography>
         </Stack>
         <Stack direction={"row"} gap={2} mb={2} mt={2}>
-          {data?.latestMmWinningNumber?.winningNumber?.map((num: any) => {
-            return (
-              <>
-                <Stack
-                  sx={{
-                    height: 30,
-                    width: 30,
-                    borderRadius: "50%",
-                    backgroundColor: "white",
-                    justifyContent: "center",
-                    alignItems: "center",
-                  }}
-                >
-                  {num}
-                </Stack>
-              </>
-            );
-          })}
+          {data?.latestMmWinningNumber?.winningNumber?.map(
+            (num: any, index: any) => {
+              return (
+                <>
+                  <Stack
+                    key={index}
+                    sx={{
+                      height: 30,
+                      width: 30,
+                      borderRadius: "50%",
+                      backgroundColor: "white",
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                  >
+                    {num}
+                  </Stack>
+                </>
+              );
+            }
+          )}
 
           <Stack
             sx={{
@@ -94,22 +97,25 @@ const LotteryHistory = () => {
           </Typography>
         </Stack>
         <Stack direction={"row"} gap={2} mb={2} mt={2}>
-          {data?.latestPbWinningNumber?.winningNumber?.map((num: any) => {
-            return (
-              <Stack
-                sx={{
-                  height: 30,
-                  width: 30,
-                  borderRadius: "50%",
-                  backgroundColor: "white",
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
-              >
-                {num}
-              </Stack>
-            );
-          })}
+          {data?.latestPbWinningNumber?.winningNumber?.map(
+            (num: any, index: any) => {
+              return (
+                <Stack
+                  key={index}
+                  sx={{
+                    height: 30,
+                    width: 30,
+                    borderRadius: "50%",
+                    backgroundColor: "white",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  {num}
+                </Stack>
+              );
+            }
+          )}
 
           <Stack
             sx={{

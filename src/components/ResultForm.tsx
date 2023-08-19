@@ -60,7 +60,6 @@ export default function ResultForm({ fontsize }: any) {
       category: "MegaMillion",
     },
     onSubmit: async (values: any) => {
-      console.log(values);
       setIsLoading(true);
 
       try {
@@ -194,6 +193,7 @@ export default function ResultForm({ fontsize }: any) {
                       fullWidth
                       type="number"
                       id={`number${index}`}
+                      key={index}
                       sx={{
                         borderRadius: 2,
                         color: "white",

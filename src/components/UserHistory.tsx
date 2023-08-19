@@ -79,9 +79,10 @@ const UserHistory = () => {
               </Typography>
             </Stack>
             <Stack direction={"row"} gap={2} mb={2} mt={2}>
-              {each?.numbers?.map((num: any) => {
+              {each?.numbers?.map((num: any, index: any) => {
                 return (
                   <Stack
+                    key={index}
                     sx={{
                       height: 30,
                       width: 30,

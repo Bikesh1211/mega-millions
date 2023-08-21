@@ -62,7 +62,7 @@ const UserHistory = () => {
       <Typography variant="h5" textAlign={"center"} color={"white"}>
         User History
       </Typography>
-      {latestFiveLotteryHistory.map((each: any) => {
+      {latestFiveLotteryHistory?.map((each: any) => {
         return (
           <Box>
             <Stack direction={"row"} justifyContent={"space-between"}>
